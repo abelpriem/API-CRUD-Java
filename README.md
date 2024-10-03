@@ -10,12 +10,12 @@
 
 ### BASE DE DATOS
 
-![F9F0C91A-ABD6-4ADA-B5E4-ED0358354334_1_201_a](https://github.com/user-attachments/assets/09695a5f-59d3-48d4-83b8-94b01cfcf989)
+![F9F0C91A-ABD6-4ADA-B5E4-ED0358354334_1_105_c](https://github.com/user-attachments/assets/b7d38f52-f2fe-4dab-8e80-2a9dfe4f67f6)
 
 ### DIAGRAMA DE FLUJO
 
-![338E1A2E-674B-424A-B05E-56C779B58993_1_201_a](https://github.com/user-attachments/assets/7a04ae98-225b-4d44-8da4-9764f21e6562)
+![338E1A2E-674B-424A-B05E-56C779B58993_1_201_a](https://github.com/user-attachments/assets/b84b531a-8bf0-4231-a875-0cd857b37902)
 
 ### UML
 
-![DD0FE1CC-53B3-4B6A-934E-15408AC321AF_1_201_a](https://github.com/user-attachments/assets/375e7a1d-f75a-4784-bc96-407408e23e0b)
+![DD0FE1CC-53B3-4B6A-934E-15408AC321AF_1_105_c](https://github.com/user-attachments/assets/fa29bdd8-9b4f-4a63-9cb6-0ac7d95fee86)
