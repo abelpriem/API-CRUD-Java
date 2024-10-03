@@ -13,7 +13,7 @@ public class SimpleHttpApi {
         int port = 8080;
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/usuarios", new Handler());
+        server.createContext("/api", new Handler());
         server.setExecutor(null);
         server.start();
 
@@ -26,6 +26,10 @@ public class SimpleHttpApi {
                 handleGetRequest(exchange);
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 handlePostRequest(exchange);
+            } else if ("PATCH".equals(exchange.getRequestMethod())) {
+                handlePatchRequest(exchange);
+            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+                handleDeleteRequest(exchange);
             } else {
                 exchange.sendResponseHeaders(405, -1);
             }
@@ -50,6 +54,14 @@ public class SimpleHttpApi {
             OutputStream oStream = exchange.getResponseBody();
             oStream.write(response.getBytes());
             oStream.close();
+        }
+
+        private void handlePatchRequest(HttpExchange exchange) throws IOException {
+            // PENDIENTE
+        }
+
+        private void handleDeleteRequest(HttpExchange exchange) throws IOException {
+            // PENDIENTE
         }
     }
 }
