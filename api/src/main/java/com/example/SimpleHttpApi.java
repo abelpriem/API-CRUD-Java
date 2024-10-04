@@ -14,6 +14,8 @@ public class SimpleHttpApi {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
+        Conexion.iniciarServidor();
+
         // ENDPOINTS
         server.createContext("/api/login", new Handler());
         server.createContext("/api/usuarios", new Handler());
