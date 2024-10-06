@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class CrearTabla {
     static Connection cn;
     static PreparedStatement ps;
-    public void usuarios() throws SQLException{
+    public static void usuarios() throws SQLException{
         cn=Conexion.establecer();
         ps=cn.prepareStatement(
             "CREATE TABLE IF NOT EXISTS usuarios ("
@@ -18,7 +18,7 @@ public class CrearTabla {
         ps.executeUpdate();
         System.out.println("Tabla usuarios creada");
     }
-    public void solicitudes() throws SQLException{
+    public static void solicitudes() throws SQLException{
         cn=Conexion.establecer();
         ps=cn.prepareStatement(
             "CREATE TABLE IF NOT EXISTS solicitudes ("
@@ -33,7 +33,7 @@ public class CrearTabla {
         ps.executeUpdate();
         System.out.println("Tabla solicitudes creada");
     }
-    public void comentarios() throws SQLException{
+    public static void comentarios() throws SQLException{
         cn=Conexion.establecer();
         ps=cn.prepareStatement(
             "CREATE TABLE IF NOT EXISTS comentarios("
