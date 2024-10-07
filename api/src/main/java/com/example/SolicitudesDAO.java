@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SolicitudesDAO {
     static PreparedStatement ps;
@@ -42,7 +43,7 @@ public class SolicitudesDAO {
         return done;
     }
 
-    public static boolean editar(int id,String tema,String descripcion){
+    public static boolean actualizar(int id,String tema,String descripcion){
         boolean done = false;
         try(Connection cn=Conexion.establecer()){
             sql = "UPDATE solicitudes SET tema = ?,descripcion = ? WHERE id = ?";
@@ -62,7 +63,28 @@ public class SolicitudesDAO {
         return done;
     }
 
-    public static Solicitudes[] obtener(){
+    public static Solicitudes obtenerPorId(int id){
+        Solicitudes s=null;
+        try (Connection cn=Conexion.establecer()){
+            sql = "SELECT * FROM solicitudes WHERE id = ?;";
+            ps=cn.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                s =new Solicitudes(rs.getString("descripcion"),
+                                     rs.getDate("fecha").toLocalDate(),
+                                     rs.getInt("id"),
+                                     rs.getInt("id_usuario"),
+                                     rs.getString("prioridad"),
+                                     rs.getString("tema"));
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public static Solicitudes[] obtenerLista(){
         Solicitudes[]lista=new Solicitudes[0];
         try (Connection cn=Conexion.establecer()){
             sql = "SELECT * FROM solicitudes;";
@@ -80,6 +102,12 @@ public class SolicitudesDAO {
         } catch(SQLException e){
             e.printStackTrace();
         }
+        return lista;
+    }
+
+    public static Solicitudes[] obtenerListaOrdenadoPorFecha(){
+        Solicitudes[]lista=SolicitudesDAO.obtenerLista();
+        Arrays.sort(lista, Comparator.comparing(Solicitudes::getFecha).reversed().thenComparing(Solicitudes::getId).reversed());
         return lista;
     }
 }

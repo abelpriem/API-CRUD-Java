@@ -56,5 +56,12 @@ public class Solicitudes {
         this.prioridad = prioridad;
     }
 
+    @Override
+    public String toString() {
+        return "Solicitudes [id=" + id + ", idUsuario=" + idUsuario + ", fecha=" + fecha + ", tema=" + tema
+                + ", descripcion=" + descripcion + ", prioridad=" + prioridad + "]";
+    }
+
+    
     
 }

@@ -16,6 +16,8 @@ public class CrearTabla {
             + "rol VARCHAR(20)"
             + ");");
         ps.executeUpdate();
+        ps=cn.prepareStatement("INSERT INTO USUARIOS (username,password,rol) VALUES ('Abel',1234,'admin'),('Maria',1234,'admin'),('Adrian',1234,'usuario'),('Oscar',1234,'usuario'),('Roberto',1234,'usuario');");
+        ps.executeUpdate();
         System.out.println("Tabla usuarios creada");
     }
     public static void solicitudes() throws SQLException{
