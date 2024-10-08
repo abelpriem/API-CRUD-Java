@@ -29,13 +29,15 @@ public class CrearTabla {
             + "fecha DATE,"
             + "tema VARCHAR(100),"
             + "descripcion TEXT,"
-            + "prioridad VARCHAR(20),"
-            + "estado VARCHAR(20),"
+            //+ "prioridad VARCHAR(20),"
+            + "estado ENUM('PENDIENTE','EN_CURSO','FINALIZADA'),"
+            + "fecha_asistencia DATE,"
             + "FOREIGN KEY (id_usuario) REFERENCES usuarios(id)"
             + ");");
         ps.executeUpdate();
         System.out.println("Tabla solicitudes creada");
     }
+    /*
     public static void comentarios() throws SQLException{
         cn=Conexion.establecer();
         ps=cn.prepareStatement(
@@ -48,4 +50,5 @@ public class CrearTabla {
         ps.executeUpdate();
         System.out.println("Tabla comentarios creada");
     }
+    */
 }

@@ -8,22 +8,37 @@ public class Solicitudes {
     private LocalDate fecha;
     private String tema;
     private String descripcion;
-    private String prioridad;
-    private String estado;
+    //private String prioridad;
+    private EstadoSolicitud estado;
+    private LocalDate fechaAsistencia;
 
-    public Solicitudes(String descripcion, LocalDate fecha, int id, int idUsuario, String prioridad, String tema,String estado) {
+
+    public enum EstadoSolicitud {
+        PENDIENTE,
+        EN_CURSO,
+        FINALIZADA;  
+    }
+
+    public Solicitudes(String descripcion, LocalDate fecha, int id, int idUsuario, /*String prioridad,*/ String tema,EstadoSolicitud estado,LocalDate fechaAsistencia) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.id = id;
         this.idUsuario = idUsuario;
-        this.prioridad = prioridad;
+        //this.prioridad = prioridad;
         this.tema = tema;
         this.estado = estado;
+        this.fechaAsistencia=fechaAsistencia;
     }
-    public String getEstado() {
+    public LocalDate getFechaAsistencia() {
+        return fechaAsistencia;
+    }
+    public void setFechaAsistencia(LocalDate fechaAsistencia) {
+        this.fechaAsistencia = fechaAsistencia;
+    }
+    public EstadoSolicitud getEstado() {
         return this.estado;
     }
-    public void setEstado(String estado) {
+    public void setEstado(EstadoSolicitud estado) {
         this.estado = estado;
     }
     public int getId() {
@@ -56,23 +71,25 @@ public class Solicitudes {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    /* 
     public String getPrioridad() {
         return prioridad;
     }
     public void setPrioridad(String prioridad) {
         this.prioridad = prioridad;
     }
-
+    */
     @Override
     public String toString() {
         return "{\n" +
             "  \"id\": " + id + ",\n" +
-            "  \"idUsuario\": " + idUsuario + ",\n" +
+            "  \"id_usuario\": " + idUsuario + ",\n" +
             "  \"fecha\": \"" + fecha + "\",\n" +
             "  \"tema\": \"" + tema + "\",\n" +
             "  \"descripcion\": \"" + descripcion + "\",\n" +
-            "  \"prioridad\": \"" + prioridad + "\",\n" +
-            "  \"estado\": \"" + estado + "\"\n" +
+            //"  \"prioridad\": \"" + prioridad + "\",\n" +
+            "  \"estado\": \"" + estado + "\",\n" +
+            "  \"fecha_asistencia\": " + (fechaAsistencia==null?"null":"\""+fechaAsistencia+"\"") + "\n" +
             "}";
     }
 

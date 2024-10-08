@@ -27,6 +27,12 @@ public class App
             System.out.println("2. Ver todas las solicitudes");
             System.out.println("3. Modificar una solicitud");
             System.out.println("4. Ver todas las solicitudes ordenado por fecha");
+            System.out.println("5. Ver si una solicitud esta en curso");
+            System.out.println("6. Marcar solicitud como pendiente");
+            System.out.println("7. Marcar solicitud como en curso");
+            System.out.println("8. Marcar solicitud como finalizada");
+            System.out.println("9. Eliminar solicitud finalizada");
+
             input=new Scanner(System.in).next();
             switch (input) {
                 case "1":
@@ -56,6 +62,21 @@ public class App
                         System.out.println(((Solicitudes)o).toString());
                     }
                 }
+                break;
+                case "5":
+                SolicitudesDAO.estaEnCurso(1);
+                break;
+                case "6":
+                SolicitudesDAO.marcarPendiente(1);
+                break;
+                case "7":
+                SolicitudesDAO.marcarEnCurso(1);
+                break;
+                case "8":
+                SolicitudesDAO.marcarFinalizada(1);
+                break;
+                case "9":
+                SolicitudesDAO.eliminar(1);
                 break;
                 case "exit":
                 exit=true;
