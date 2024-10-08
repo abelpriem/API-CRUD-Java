@@ -9,16 +9,23 @@ public class Solicitudes {
     private String tema;
     private String descripcion;
     private String prioridad;
+    private String estado;
 
-    public Solicitudes(String descripcion, LocalDate fecha, int id, int idUsuario, String prioridad, String tema) {
+    public Solicitudes(String descripcion, LocalDate fecha, int id, int idUsuario, String prioridad, String tema,String estado) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.id = id;
         this.idUsuario = idUsuario;
         this.prioridad = prioridad;
         this.tema = tema;
+        this.estado = estado;
     }
-
+    public String getEstado() {
+        return this.estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
     public int getId() {
         return id;
     }
@@ -57,10 +64,16 @@ public class Solicitudes {
     }
 
     @Override
-    public String toString() {
-        return "Solicitudes [id=" + id + ", idUsuario=" + idUsuario + ", fecha=" + fecha + ", tema=" + tema
-                + ", descripcion=" + descripcion + ", prioridad=" + prioridad + "]";
-    }
+public String toString() {
+    return "{\n" +
+           "  \"descripcion\": \"" + descripcion + "\",\n" +
+           "  \"fecha\": \"" + fecha + "\",\n" +
+           "  \"id\": " + id + ",\n" +
+           "  \"idUsuario\": " + idUsuario + ",\n" +
+           "  \"prioridad\": \"" + prioridad + "\",\n" +
+           "  \"tema\": \"" + tema + "\"\n" +
+           "}";
+}
 
     
     

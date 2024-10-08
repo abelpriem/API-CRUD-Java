@@ -30,6 +30,7 @@ public class CrearTabla {
             + "tema VARCHAR(100),"
             + "descripcion TEXT,"
             + "prioridad VARCHAR(20),"
+            + "estado VARCHAR(20),"
             + "FOREIGN KEY (id_usuario) REFERENCES usuarios(id)"
             + ");");
         ps.executeUpdate();

@@ -76,7 +76,8 @@ public class SolicitudesDAO {
                                      rs.getInt("id"),
                                      rs.getInt("id_usuario"),
                                      rs.getString("prioridad"),
-                                     rs.getString("tema"));
+                                     rs.getString("tema"),
+                                     rs.getString("estado"));
             }
         } catch(SQLException e){
             e.printStackTrace();
@@ -97,7 +98,8 @@ public class SolicitudesDAO {
                                      rs.getInt("id"),
                                      rs.getInt("id_usuario"),
                                      rs.getString("prioridad"),
-                                     rs.getString("tema"));
+                                     rs.getString("tema"),
+                                     rs.getString("estado"));
             }
         } catch(SQLException e){
             e.printStackTrace();
