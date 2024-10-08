@@ -13,7 +13,19 @@ public class SimpleHttpApi {
         int port = 8080;
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/api", new Handler());
+
+        Conexion.iniciarServidor();
+
+        // ENDPOINTS
+        server.createContext("/api/login", new Handler());
+        server.createContext("/api/usuarios", new Handler());
+        server.createContext("/api/solicitudes", new Handler());
+        server.createContext("/api/solicitudes/{id}", new Handler());
+        server.createContext("/api/solicitudes/{id}/completar", new Handler());
+
+        // EXTRAS (?)
+        server.createContext("/api/solicitudes/reporte-pdf", new Handler());
+
         server.setExecutor(null);
         server.start();
 
@@ -21,47 +33,100 @@ public class SimpleHttpApi {
     }
 
     static class Handler implements HttpHandler {
+        String response = null;
+        int statusCode;
+
         public void handle(HttpExchange exchange) throws IOException {
-            if ("GET".equals(exchange.getRequestMethod())) {
-                handleGetRequest(exchange);
-            } else if ("POST".equals(exchange.getRequestMethod())) {
-                handlePostRequest(exchange);
-            } else if ("PATCH".equals(exchange.getRequestMethod())) {
-                handlePatchRequest(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                handleDeleteRequest(exchange);
-            } else {
-                exchange.sendResponseHeaders(405, -1);
+
+            // RECIBIMOS EL MÉTODO DE LA PETICIÓN Y LA RUTA
+            String method = exchange.getRequestMethod();
+            String path = exchange.getRequestURI().getPath();
+
+            switch (method) {
+                case "POST":
+                    // Method POST
+                    handlePostRequest(exchange, path);
+                    break;
+
+                case "GET":
+                    // Method GET
+                    handleGetRequest(exchange, path);
+                    break;
+
+                case "PUT":
+                    // Method PUT
+                    handlePutRequest(exchange, path);
+                    break;
+
+                case "DELETE":
+                    // Method DELETE
+                    handleDeleteRequest(exchange, path);
+                    break;
+
+                default:
+                    statusCode = 405;
+                    exchange.sendResponseHeaders(statusCode, -1);
+                    break;
             }
+
+            // RECIBIMOS LA SOLICITUD/RESPUESTA DEL CONTROLADOR
+            OutputStream osStream = exchange.getResponseBody();
+            osStream.write(response.getBytes());
+            osStream.close();
         }
 
-        private void handleGetRequest(HttpExchange exchange) throws IOException {
-            String response = "[{\success\": false}]";
-            exchange.getResponseHeaders().set("Content-Type", "application/json");
-            OutputStream oStream = exchange.getResponseBody();
-            oStream.write(response.getBytes());
-            oStream.close();
-        }
-
-        private void handlePostRequest(HttpExchange exchange) throws IOException {
+        // POST METHOD
+        private void handlePostRequest(HttpExchange exchange, String path) throws IOException {
             byte[] requestBody = exchange.getRequestBody().readAllBytes();
             String body = new String(requestBody);
 
             System.out.println("Solicitud POST recibida con cuerpo: " + body);
 
-            String response = "Tarea creada exitosamente!";
-            exchange.sendResponseHeaders(201, response.getBytes().length);
+            statusCode = 201;
+            exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+
             OutputStream oStream = exchange.getResponseBody();
             oStream.write(response.getBytes());
             oStream.close();
         }
 
-        private void handlePatchRequest(HttpExchange exchange) throws IOException {
-            // PENDIENTE
+        // GET METHOD
+        private void handleGetRequest(HttpExchange exchange, String path) throws IOException {
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+
+            statusCode = 200;
+            exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+
+            OutputStream oStream = exchange.getResponseBody();
+            oStream.write(response.getBytes());
+            oStream.close();
         }
 
-        private void handleDeleteRequest(HttpExchange exchange) throws IOException {
-            // PENDIENTE
+        // PUT METHOD
+        private void handlePutRequest(HttpExchange exchange, String path) throws IOException {
+            byte[] requestBody = exchange.getRequestBody().readAllBytes();
+            String body = new String(requestBody);
+
+            System.out.println("Solicitud PUT recibida con cuerpo: " + body);
+
+            statusCode = 200;
+            exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+
+            OutputStream osStream = exchange.getResponseBody();
+            osStream.write(response.getBytes());
+            osStream.close();
+        }
+
+        // DELETE METHOD
+        private void handleDeleteRequest(HttpExchange exchange, String path) throws IOException {
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+
+            statusCode = 200;
+            exchange.sendResponseHeaders(statusCode, response.getBytes().length);
+
+            OutputStream oStream = exchange.getResponseBody();
+            oStream.write(response.getBytes());
+            oStream.close();
         }
     }
 }
