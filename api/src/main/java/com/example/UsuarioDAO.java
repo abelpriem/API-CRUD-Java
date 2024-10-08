@@ -31,9 +31,17 @@ public class UsuarioDAO {
             }
 
         }catch(SQLException e){
-
+            e.printStackTrace();
         }
 
 
+    }
+
+    public static boolean isAdmin(String rol){
+        if(rol.equals("admin")){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
