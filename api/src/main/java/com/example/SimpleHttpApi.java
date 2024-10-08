@@ -3,6 +3,7 @@ package com.example;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.sql.SQLException;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -15,6 +16,12 @@ public class SimpleHttpApi {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         Conexion.iniciarServidor();
+
+        try {
+            CrearTabla.usuarios();
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
 
         // ENDPOINTS
         server.createContext("/api/login", new Handler());
