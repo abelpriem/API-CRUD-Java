@@ -64,16 +64,17 @@ public class Solicitudes {
     }
 
     @Override
-public String toString() {
-    return "{\n" +
-           "  \"descripcion\": \"" + descripcion + "\",\n" +
-           "  \"fecha\": \"" + fecha + "\",\n" +
-           "  \"id\": " + id + ",\n" +
-           "  \"idUsuario\": " + idUsuario + ",\n" +
-           "  \"prioridad\": \"" + prioridad + "\",\n" +
-           "  \"tema\": \"" + tema + "\"\n" +
-           "}";
-}
+    public String toString() {
+        return "{\n" +
+            "  \"id\": " + id + ",\n" +
+            "  \"idUsuario\": " + idUsuario + ",\n" +
+            "  \"fecha\": \"" + fecha + "\",\n" +
+            "  \"tema\": \"" + tema + "\",\n" +
+            "  \"descripcion\": \"" + descripcion + "\",\n" +
+            "  \"prioridad\": \"" + prioridad + "\",\n" +
+            "  \"estado\": \"" + estado + "\"\n" +
+            "}";
+    }
 
     
     

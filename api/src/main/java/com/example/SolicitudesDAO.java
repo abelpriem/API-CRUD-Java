@@ -24,7 +24,7 @@ public class SolicitudesDAO {
             rs = ps.executeQuery();
             if(rs.next()){
                 id = rs.getInt(1);
-                sql = "INSERT INTO solicitudes (id_usuario,fecha,tema,descripcion,prioridad) VALUES(?,?,?,?,null);";
+                sql = "INSERT INTO solicitudes (id_usuario,fecha,tema,descripcion,prioridad,estado) VALUES(?,?,?,?,null,'pendiente');";
                 ps = cn.prepareStatement(sql);
                 ps.setInt(1, id);
                 ps.setString(2, LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
