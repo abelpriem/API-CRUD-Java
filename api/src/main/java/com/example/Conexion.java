@@ -17,7 +17,7 @@ public class Conexion {
     public static void iniciarServidor() {
         try {
             org.h2.tools.Server.createTcpServer().start();
-            System.out.println("Servidor H2 iniciado en el puerto 8080.");
+            System.out.println("Servidor H2 iniciado en el puerto 8082.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
