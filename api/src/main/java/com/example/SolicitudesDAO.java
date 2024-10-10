@@ -18,10 +18,6 @@ public class SolicitudesDAO {
     static ResultSet rs;
     static int id;
 
-    // METODO crear (CREATE) retorna TRUE si la solicitud se crea correctamente en
-    // la base de datos, false en caso contrario
-    // Recibe el nombre del solicitante, el tema y la descripcion de la solicitud
-    // como parametros
     public static boolean crear(String nombreSolicitante, String tema, String descripcion) {
         boolean done = false;
         try (Connection cn = Conexion.establecer()) {
@@ -51,9 +47,6 @@ public class SolicitudesDAO {
         return done;
     }
 
-    // METODO actualizar (UPDATE) retorna TRUE si la solicitud se actualiza
-    // correctamente en la base de datos, FALSE en caso contrario
-    // Recibe el id, el tema y la descripcion de la solicitud como parametros
     public static boolean actualizar(int id, String tema, String descripcion) {
         boolean done = false;
         try (Connection cn = Conexion.establecer()) {
@@ -74,13 +67,6 @@ public class SolicitudesDAO {
         return done;
     }
 
-    // METODO obtenerPorId (GET(ID)) retorna un objeto de tipo Solicitudes.
-    // Este objeto tendra como atributos los datos devueltos por la consulta a la
-    // base de datos
-    // Si el id de la solicitud no existe en la base de datos (es decir, la consulta
-    // no tiene resultados) retorna NULL
-    // Recibe el id de la solicitud como parametro
-
     public static Solicitudes obtenerPorId(int id) {
         Solicitudes s = null;
         try (Connection cn = Conexion.establecer()) {
@@ -93,7 +79,6 @@ public class SolicitudesDAO {
                         rs.getDate("fecha").toLocalDate(),
                         rs.getInt("id"),
                         rs.getInt("id_usuario"),
-                        // rs.getString("prioridad"),
                         rs.getString("tema"),
                         EstadoSolicitud.valueOf(rs.getString("estado")),
                         rs.getDate("fecha_asistencia") == null ? null : rs.getDate("fecha_asistencia").toLocalDate());
@@ -106,11 +91,6 @@ public class SolicitudesDAO {
         return s;
     }
 
-    // METODO obtenerLista (GET) retorna un array de tipo Solicitudes
-    // que contendra todos los registros devueltos por la consulta
-    // cada uno almacenados en un objeto de tipo Solicitudes en sus respectivos
-    // atributos
-    // retorna un array de longitud 0 si la consulta no tiene resultados
     public static Solicitudes[] obtenerLista() {
         Solicitudes[] lista = new Solicitudes[0];
         try (Connection cn = Conexion.establecer()) {
@@ -123,7 +103,6 @@ public class SolicitudesDAO {
                         rs.getDate("fecha").toLocalDate(),
                         rs.getInt("id"),
                         rs.getInt("id_usuario"),
-                        // rs.getString("prioridad"),
                         rs.getString("tema"),
                         EstadoSolicitud.valueOf(rs.getString("estado")),
                         rs.getDate("fecha_asistencia") == null ? null : rs.getDate("fecha_asistencia").toLocalDate());
@@ -134,10 +113,6 @@ public class SolicitudesDAO {
         return lista;
     }
 
-    // METODO obtenerListaOrdenadoPorFecha retorna un array de tipo solicitudes
-    // Simplemente cogera el resultado de ejecutar el metodo obtenerLista() y le
-    // dara la vuelta
-    // mostrando primero las solicitudes mas antiguas
     public static Solicitudes[] obtenerListaOrdenadoPorFecha() {
         Solicitudes[] lista = SolicitudesDAO.obtenerLista();
         Arrays.sort(lista,
@@ -145,10 +120,6 @@ public class SolicitudesDAO {
         return lista;
     }
 
-    // METODO estaEnCurso retorna TRUE si el estado de una solicitud es
-    // EN_CURSO,FALSE en caso contrario
-    // Recibe como parametro el id de la solicitud de la cual se quiere verificar su
-    // estado
     public static boolean estaEnCurso(int id) {
         boolean b = false;
         try (Connection cn = Conexion.establecer()) {
@@ -165,10 +136,6 @@ public class SolicitudesDAO {
         return b;
     }
 
-    // METODO eliminar (DELETE) retorna TRUE si se elimina el registro en la base de
-    // datos,FALSE en caso contrario
-    // Recibe como parametro el id de la solicitud que se quiere eliminar
-    // unicamente se podra eliminar si el estado de la solicitud es FINALIZADA
     public static boolean eliminar(int id) {
         boolean done = false;
         Solicitudes s = SolicitudesDAO.obtenerPorId(id);
@@ -194,12 +161,6 @@ public class SolicitudesDAO {
         return done;
     }
 
-    // METODO marcarEnCurso retorna TRUE si modifica el registro en la base de
-    // datos,FALSE en caso contrario
-    // recibe como parametro el id de la solicitud que se quiere actualizar su
-    // estado a EN_CURSO
-    // Ademas registrara en la base de datos la fecha en la que se hizo esta
-    // modificacion en el campo fecha_asistencia
     public static boolean marcarEnCurso(int id) {
         try (Connection cn = Conexion.establecer()) {
             return marcar(EstadoSolicitud.EN_CURSO, id, cn) && actualizarFechaAsistencia(id, cn);
@@ -210,10 +171,6 @@ public class SolicitudesDAO {
 
     }
 
-    // METODO PRIVADO actualizarFechaAsistencia
-    // Simplemente se encargara de actualizar la fecha de asistencia de manera
-    // interna
-    // cuando se haya cambiado el estado de una solicitud a EN_CURSO
     private static boolean actualizarFechaAsistencia(int id, Connection cn) throws SQLException {
         boolean done = false;
         sql = "UPDATE solicitudes SET fecha_asistencia = ? WHERE id = ? AND estado = ?;";
@@ -228,10 +185,6 @@ public class SolicitudesDAO {
         return done;
     }
 
-    // METODO marcarFinalizada retorna TRUE si modifica el registro en la base de
-    // datos,FALSE en caso contrario
-    // recibe como parametro el id de la solicitud que se quiere actualizar su
-    // estado a FINALIZADA
     public static boolean marcarFinalizada(int id) {
         try (Connection cn = Conexion.establecer()) {
             return marcar(EstadoSolicitud.FINALIZADA, id, cn);
@@ -241,10 +194,6 @@ public class SolicitudesDAO {
         return false;
     }
 
-    // METODO marcarPendiente retorna TRUE si modifica el registro en la base de
-    // datos,FALSE en caso contrario
-    // recibe como parametro el id de la solicitud que se quiere actualizar su
-    // estado a FINALIZADA
     public static boolean marcarPendiente(int id) {
         try (Connection cn = Conexion.establecer()) {
             return marcar(EstadoSolicitud.PENDIENTE, id, cn);
@@ -254,10 +203,6 @@ public class SolicitudesDAO {
         return false;
     }
 
-    // METODO PRIVADO marcar retorna TRUE si modifica el registro en la base de
-    // datos,FALSE en caso contrario
-    // Se encarga de manejar los posibles estados de las solicitudes de manera
-    // interna
     private static boolean marcar(EstadoSolicitud estado, int id, Connection cn) throws SQLException {
         boolean done = false;
         Solicitudes s = SolicitudesDAO.obtenerPorId(id);
