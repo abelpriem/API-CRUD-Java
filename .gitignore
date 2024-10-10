@@ -1,0 +1,9 @@
+*.class
+*.log
+.vscode/
+*.swp
+.mvn/
+mvnw*
+.DS_Store
+Thumbs.db
+/api/target/

@@ -5,7 +5,7 @@
 - Abel Prieto Martín
 - Roberto Lumbreras Canal
 - María García Sierra
-- Adrián Cañas Rodríguez
+- Adrián Caiñas Rodríguez
 - Óscar Menéndez Barrio
 
 ### BASE DE DATOS
