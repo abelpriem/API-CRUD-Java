@@ -3,9 +3,10 @@ package com.example;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Scanner;
 
-import com.example.controllers.Handler;
+import com.example.model.Solicitudes;
 import com.sun.net.httpserver.HttpServer;
 
 public class SimpleHttpApi {
@@ -16,8 +17,7 @@ public class SimpleHttpApi {
         int port = 8080;
         int typeUser = 0;
 
-        int optionAdmin = 0;
-        int optionUser = 0;
+        int optionSelected = 0;
         boolean exit = false;
         String exitOption;
 
@@ -27,6 +27,7 @@ public class SimpleHttpApi {
 
         try {
             CrearTabla.usuarios();
+            CrearTabla.solicitudes();
         } catch (SQLException error) {
             error.printStackTrace();
         }
@@ -35,9 +36,9 @@ public class SimpleHttpApi {
         server.start();
 
         System.out.println("Servidor online! Escuchando en el PUERTO: " + port);
-        System.out.println();
 
         do {
+            System.out.println();
             System.out.println("Selección de usuarios: 1. Usuario 2. Admin");
             typeUser = scanner.nextInt();
 
@@ -45,54 +46,158 @@ public class SimpleHttpApi {
 
             do {
                 if (typeUser == 1) {
-                    optionUser = App.menuUsuario(); // Recibe la opcíon del usuario elegida
+                    optionSelected = App.menuUsuario(); // Recibe la opcíon del usuario elegida
                 } else if (typeUser == 2) {
-                    optionAdmin = App.menuAdmin(); // Recibe la opcíon del admin elegida
+                    optionSelected = App.menuAdmin(); // Recibe la opcíon del admin elegida
                 } else {
                     System.out.println("Introduzca el tipo de usuario correcto");
                 }
             } while (typeUser != 1 && typeUser != 2);
 
-            if (optionUser == 1 || optionAdmin == 1) {
-                // ENDPOINT: Crear solicitudes
-                server.createContext("/api/solicitudes", new Handler());
-            } else if (optionUser == 2 || optionAdmin == 2) {
-                // ENDPOINT: Recibir solicitudes
-                server.createContext("/api/solicitudes", new Handler());
-            } else if (optionUser == 3 || optionAdmin == 3) {
-                // ENDPOINT: Editar solicitud
-                server.createContext("/api/solicitudes/{id}", new Handler());
-            } else if (optionAdmin == 4) {
-                // ENDPOINT: Recibir solicitudes por FECHA (ASC)
-                server.createContext("/api/solicitudes/orden", new Handler());
-            } else if (optionAdmin == 5) {
-                // ENDPOINT: Saber si una solicitud está en curso (TRUE-FALSE)
-                server.createContext("/api/solicitudes/comprobar/{id}", new Handler());
-            } else if (optionAdmin == 6) {
+            if (optionSelected == 1) {
+                // ENDPOINT: Crear solicitudes (OK)
+                String nombreUsuario;
+                String temaSolicitud;
+                String descripcionSolicitud;
+
+                System.out.println();
+                System.out.println("Introduzca el nombre de usuario: ");
+                nombreUsuario = scanner.nextLine();
+                System.out.println();
+
+                System.out.println("Introduzca el tema de la solicitud: ");
+                temaSolicitud = scanner.nextLine();
+                System.out.println();
+
+                System.out.println("Introduzca la descripción de la solicitud: ");
+                descripcionSolicitud = scanner.nextLine();
+                System.out.println();
+
+                SolicitudesDAO.crear(nombreUsuario, temaSolicitud, descripcionSolicitud);
+
+                optionSelected = 0;
+            } else if (optionSelected == 2) {
+                // ENDPOINT: Recibir solicitudes (OK)
+                Solicitudes[] lista = SolicitudesDAO.obtenerLista();
+
+                if (lista.length == 0) {
+                    System.out.println();
+                    System.out.println("No hay solicitudes creadas todavía.. Inténtelo de nuevo");
+                } else {
+                    System.out.println(Arrays.toString(lista));
+                }
+
+                optionSelected = 0;
+            } else if (optionSelected == 3) {
+                // ENDPOINT: Editar solicitud (OK)
+                int id = 0;
+                String editarTema;
+                String editarDescripcion;
+
+                System.out.println();
+                System.out.println("Introduzca el ID de la solicitud: ");
+                id = scanner.nextInt();
+                System.out.println();
+
+                scanner.nextLine();
+
+                System.out.println("Introduzca la modificación del tema: ");
+                editarTema = scanner.nextLine();
+                System.out.println();
+
+                System.out.println("Introduzca la modificación de la descripción: ");
+                editarDescripcion = scanner.nextLine();
+                System.out.println();
+
+                SolicitudesDAO.actualizar(id, editarTema, editarDescripcion);
+
+                optionSelected = 0;
+            } else if (optionSelected == 4) {
+                // ENDPOINT: Recibir solicitudes por FECHA ASC (OK)
+                Solicitudes[] listaPorFecha = SolicitudesDAO.obtenerListaOrdenadoPorFecha();
+                System.out.println(Arrays.toString(listaPorFecha));
+
+                optionSelected = 0;
+            } else if (optionSelected == 5) {
+                // ENDPOINT: Saber si una solicitud está en curso (OK)
+                int id = 0;
+
+                System.out.println();
+                System.out.println("Introduce el ID a consultar: ");
+                id = scanner.nextInt();
+
+                scanner.nextLine();
+
+                SolicitudesDAO.estaEnCurso(id);
+
+                optionSelected = 0;
+            } else if (optionSelected == 6) {
                 // ENDPOINT: Marcar solicitud como pendiente
-                server.createContext("/api/solicitudes/pendiente/{id}", new Handler());
-            } else if (optionAdmin == 7) {
-                // ENDPOINT: Marcar solicitud como en curso
-                server.createContext("/api/solicitudes/en-curso/{id}", new Handler());
-            } else if (optionAdmin == 8) {
+                int id = 0;
+
+                System.out.println();
+                System.out.println("Introduce el ID a marcar status como PENDIENTE: ");
+                id = scanner.nextInt();
+
+                scanner.nextLine();
+
+                SolicitudesDAO.marcarPendiente(id);
+
+                System.out.println();
+
+                optionSelected = 0;
+            } else if (optionSelected == 7) {
+                // ENDPOINT: Marcar solicitud como en curso (OK)
+                int id = 0;
+
+                System.out.println();
+                System.out.println("Introduce el ID a marcar status como EN CURSO: ");
+                id = scanner.nextInt();
+
+                scanner.nextLine();
+
+                SolicitudesDAO.marcarEnCurso(id);
+
+                optionSelected = 0;
+            } else if (optionSelected == 8) {
                 // ENDPOINT: Marcar solicitud como finalizada
-                server.createContext("/api/solicitudes/finalizada/{id}", new Handler());
-            } else if (optionAdmin == 9) {
+                int id = 0;
+
+                System.out.println();
+                System.out.println("Introduce el ID a marcar status como FINALIZADA: ");
+                id = scanner.nextInt();
+
+                scanner.nextLine();
+
+                SolicitudesDAO.marcarFinalizada(id);
+
+                optionSelected = 0;
+            } else if (optionSelected == 9) {
                 // ENDPOINT: Eliminar solicitud
-                server.createContext("/api/solicitudes/{id}", new Handler());
+                int id = 0;
+
+                System.out.println();
+                System.out.println("Introduce el ID de la solicitud a ELIMINAR: ");
+                id = scanner.nextInt();
+
+                scanner.nextLine();
+
+                SolicitudesDAO.eliminar(id);
+
+                optionSelected = 0;
             }
 
             System.out.println();
             System.out.println(
-                    "¿Desea salir o volver a realizar una tarea? Introduzca SI para salir o NO para seguir haciendo consultas");
+                    "¿Desea salir o volver a realizar una tarea? Introduzca NO para salir o SI para seguir haciendo consultas");
             exitOption = scanner.nextLine().trim().toUpperCase();
 
             switch (exitOption) {
-                case "SI":
+                case "NO":
                     exit = true;
                     break;
 
-                case "NO":
+                case "SI":
                     exit = false;
                     break;
 

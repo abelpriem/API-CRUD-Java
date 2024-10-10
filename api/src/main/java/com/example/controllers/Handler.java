@@ -13,27 +13,51 @@ public class Handler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
 
         // RECIBIMOS EL MÉTODO DE LA PETICIÓN Y LA RUTA
-        String method = exchange.getRequestMethod();
         String path = exchange.getRequestURI().getPath();
+        String method = null;
+
+        if (path == "/api/solicitudes/crear") {
+            method = "POST";
+        } else if (path == "/api/solicitudes") {
+            method = "GET";
+        } else if (path == "/api/solicitudes/{id}") {
+            method = "PUT";
+        } else if (path == "/api/solicitudes/orden") {
+            method = "GET";
+        } else if (path == "/api/solicitudes/comprobar/{id}") {
+            method = "GET";
+        } else if (path == "/api/solicitudes/pendiente/{id}") {
+            method = "PUT";
+        } else if (path == "/api/solicitudes/en-curso/{id}") {
+            method = "PUT";
+        } else if (path == "/api/solicitudes/finalizada/{id}") {
+            method = "PUT";
+        } else if (path == "/api/solicitudes/eliminar/{id}") {
+            method = "DELETE";
+        }
 
         switch (method) {
             case "POST":
                 // Method POST
+                System.out.println(path);
                 handlePostRequest(exchange, path);
                 break;
 
             case "GET":
                 // Method GET
+                System.out.println(path);
                 handleGetRequest(exchange, path);
                 break;
 
             case "PUT":
-                // Method PUT
+                // Method
+                System.out.println(path);
                 handlePutRequest(exchange, path);
                 break;
 
             case "DELETE":
                 // Method DELETE
+                System.out.println(path);
                 handleDeleteRequest(exchange, path);
                 break;
 

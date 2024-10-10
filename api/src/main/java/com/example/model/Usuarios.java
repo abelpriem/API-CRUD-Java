@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 public class Usuarios {
     private int id;
@@ -6,11 +6,11 @@ public class Usuarios {
     private String password;
     private String rol;
 
-    public Usuarios(int id,String username,String password,String rol){
-        this.id=id;
-        this.username=username;
-        this.password=password;
-        this.rol=rol;
+    public Usuarios(int id, String username, String password, String rol) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
     }
 
     public int getId() {
@@ -45,5 +45,4 @@ public class Usuarios {
         this.rol = rol;
     }
 
-    
 }
