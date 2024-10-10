@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import com.example.model.Solicitudes;
-import com.sun.net.httpserver.HttpServer;
 
 public class SimpleHttpApi {
 
@@ -46,16 +45,15 @@ public class SimpleHttpApi {
 
             do {
                 if (typeUser == 1) {
-                    optionSelected = App.menuUsuario(); // Recibe la opcíon del usuario elegida
+                    optionSelected = App.menuUsuario();
                 } else if (typeUser == 2) {
-                    optionSelected = App.menuAdmin(); // Recibe la opcíon del admin elegida
+                    optionSelected = App.menuAdmin();
                 } else {
                     System.out.println("Introduzca el tipo de usuario correcto");
                 }
             } while (typeUser != 1 && typeUser != 2);
 
             if (optionSelected == 1) {
-                // ENDPOINT: Crear solicitudes (OK)
                 String nombreUsuario;
                 String temaSolicitud;
                 String descripcionSolicitud;
@@ -77,7 +75,6 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 2) {
-                // ENDPOINT: Recibir solicitudes (OK)
                 Solicitudes[] lista = SolicitudesDAO.obtenerLista();
 
                 if (lista.length == 0) {
@@ -89,7 +86,6 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 3) {
-                // ENDPOINT: Editar solicitud (OK)
                 int id = 0;
                 String editarTema;
                 String editarDescripcion;
@@ -113,13 +109,11 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 4) {
-                // ENDPOINT: Recibir solicitudes por FECHA ASC (OK)
                 Solicitudes[] listaPorFecha = SolicitudesDAO.obtenerListaOrdenadoPorFecha();
                 System.out.println(Arrays.toString(listaPorFecha));
 
                 optionSelected = 0;
             } else if (optionSelected == 5) {
-                // ENDPOINT: Saber si una solicitud está en curso (OK)
                 int id = 0;
 
                 System.out.println();
@@ -132,7 +126,6 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 6) {
-                // ENDPOINT: Marcar solicitud como pendiente
                 int id = 0;
 
                 System.out.println();
@@ -147,7 +140,6 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 7) {
-                // ENDPOINT: Marcar solicitud como en curso (OK)
                 int id = 0;
 
                 System.out.println();
@@ -160,7 +152,6 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 8) {
-                // ENDPOINT: Marcar solicitud como finalizada
                 int id = 0;
 
                 System.out.println();
@@ -173,7 +164,6 @@ public class SimpleHttpApi {
 
                 optionSelected = 0;
             } else if (optionSelected == 9) {
-                // ENDPOINT: Eliminar solicitud
                 int id = 0;
 
                 System.out.println();
