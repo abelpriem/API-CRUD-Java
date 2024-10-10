@@ -207,6 +207,9 @@ public class SimpleHttpApi {
             }
         } while (!exit);
 
+        System.out.println("Cerrando servidor...");
+        server.stop(0);
+
         System.out.println();
         System.out.println("¡Hasta la próxima!");
 
